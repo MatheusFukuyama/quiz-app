@@ -19,7 +19,6 @@ export default function QuestionCard(props) {
         store.dispatch(handleChoiceChange(choices))
         setCheckedRadio(e.target.value)
     }
-    console.log(choice)
     
     if(correctAnswer || correctAnswer === 0){
         return (       

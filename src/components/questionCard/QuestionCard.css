@@ -34,10 +34,8 @@
 
 @media screen and (max-width: 630px ) {
     .statement{
-        padding: 1rem 1.5rem;
         font-size: .75rem;
-        text-align: center;
-        max-width: 60ch;
+        max-width: 40ch;
         width: 100%;
     }
 
