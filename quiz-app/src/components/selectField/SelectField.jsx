@@ -25,8 +25,6 @@ export default function SelectField(props) {
                 store.dispatch(handleTypeChange(e.target.value))
             break
         }
-
-        console.log(store.getState())
     }
 
     return (

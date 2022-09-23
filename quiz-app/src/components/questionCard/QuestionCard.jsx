@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 export default function QuestionCard(props) {
     const { statement, answers, correctAnswer, indexQuestion} = props
     const [choices, setChoices] = useState([])
+    const [checkedRadio, setCheckedRadio] = useState(false)
     const { question_index, choice } = useSelector(state => state)
 
     const handleChange = (e) =>{
@@ -15,8 +16,8 @@ export default function QuestionCard(props) {
         array[question_index] = e.target.value
         setChoices([...array])
         store.dispatch(handleChoiceChange(choices))
+        setCheckedRadio(e.target.value)
     }
-
 
 
     if(correctAnswer || correctAnswer == 0){
@@ -28,23 +29,23 @@ export default function QuestionCard(props) {
                         answers.map((answer, index) => {
                             if(index == choice[indexQuestion]) {
                                 if(index == correctAnswer){
-                                    return (<li className='mt-2 rounded-3 answer bg-success' key={index} onChange={handleChange}>
-                                        <input type="radio" value={index} readOnly checked name={indexQuestion}/>{answer}
+                                    return (<li className='mt-2 rounded-3 answer bg-success' key={index}>
+                                        <input type="radio" value={index} checked name={indexQuestion} onChange={handleChange}/>{answer}
                                     </li>)
                                 } else {
-                                    return (<li className='mt-2 rounded-3 answer' key={index} onChange={handleChange}>
-                                        <input type="radio" value={index} readOnly checked name={indexQuestion}/>{answer}
+                                    return (<li className='mt-2 rounded-3 answer' key={index}>
+                                        <input type="radio" value={index}  checked name={indexQuestion} onChange={handleChange}/>{answer}
                                     </li>)
                                 }
 
                             } else {
                                 if(index == correctAnswer){
-                                    return (<li className='mt-2 rounded-3 answer bg-success' key={index} onChange={handleChange}>
-                                        <input type="radio" value={index} name={indexQuestion}/>{answer}
+                                    return (<li className='mt-2 rounded-3 answer bg-success' key={index}>
+                                        <input type="radio" value={index} name={indexQuestion} onChange={handleChange}/>{answer}
                                     </li>)
                                 } else {
-                                    return (<li className='mt-2 rounded-3 answer' key={index} onChange={handleChange}>
-                                        <input type="radio" value={index} name={indexQuestion}/>{answer}
+                                    return (<li className='mt-2 rounded-3 answer' key={index} >
+                                        <input type="radio" value={index} name={indexQuestion} onChange={handleChange}/>{answer}
                                     </li>)
                                 }
                             }
@@ -56,21 +57,37 @@ export default function QuestionCard(props) {
         )
 
     } else {
-        return (
-            
-            <div className='question-card'>
-                <h1 className='bg-dark text-light w-100 rounded-3 statement'>{statement}</h1>            
-                <ul className='list'>
-                    {
-                        answers.map((answer, index) => (
-                            <li className='mt-2 rounded-3 answer' key={index} onChange={handleChange}>
-                               <input type="radio" value={index} name={question_index}/>{answer}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-        )
+        if(choice[question_index]){
+            return (
+                <div className='question-card'>
+                    <h1 className='bg-dark text-light w-100 rounded-3 statement'>{statement}</h1>            
+                    <ul className='list'>
+                        {
+                            answers.map((answer, index) => (
+                                <li className='mt-2 rounded-3 answer' key={index}>
+                                    <input type="radio" value={index}  checked={index == choice[question_index]} onChange={handleChange} name={question_index}/>{answer}
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            )
+        } else {
+            return (
+                <div className='question-card'>
+                    <h1 className='bg-dark text-light w-100 rounded-3 statement'>{statement}</h1>            
+                    <ul className='list'>
+                        {
+                            answers.map((answer, index) => (
+                                <li className='mt-2 rounded-3 answer' key={index}>
+                                    <input type="radio" value={index}  onChange={handleChange} name={question_index}/>{answer}
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            )
+        }
 
     }
 }

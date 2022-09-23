@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import store from '../../redux/store'
-import { handleChoiceChange, handleCorrectAnswersChange, handleIndexQuestionChange, handleOptionsChange, handleQuestionsChange } from '../../redux/actions'
+import { handleChoiceChange, handleCorrectAnswersChange, handleIndexQuestionChange, handleOptionsChange, handleQuestionsChange, handleFinalChange } from '../../redux/actions'
 
 export default function Header() {
     const { correct_answers, choice } = useSelector(state => state)
@@ -16,7 +16,7 @@ export default function Header() {
     useEffect(() => {
         let counter = 0
         for(let i = 0; i < 10; i++) {
-            if(choice[i] == correct_answers[i+1]){
+            if(choice[i] == correct_answers[i]){
                 counter++
             }
         }
@@ -30,6 +30,7 @@ export default function Header() {
         store.dispatch(handleChoiceChange([]))
         store.dispatch(handleOptionsChange([]))
         store.dispatch(handleCorrectAnswersChange([]))
+        store.dispatch(handleFinalChange(false))
         navigate('/')
     }
 

@@ -1,4 +1,4 @@
-import { CHANGE_CATEGORY, CHANGE_DIFFICULTY, CHANGE_TYPE, CHANGE_CHOICE, CHANGE_QUESTIONINDEX, CHANGE_SCORE, CHANGE_CORRECT_ANSWERS, CHANGE_OPTIONS, CHANGE_QUESTIONS } from "./actionsType"
+import { CHANGE_CATEGORY, CHANGE_DIFFICULTY, CHANGE_TYPE, CHANGE_CHOICE, CHANGE_QUESTIONINDEX, CHANGE_FINAL, CHANGE_CORRECT_ANSWERS, CHANGE_OPTIONS, CHANGE_QUESTIONS } from "./actionsType"
 
 const initialState = {
     question_category: 9,
@@ -6,7 +6,7 @@ const initialState = {
     question_type: "multiple",
     choice: [],
     question_index: 0,
-    score: 0,
+    final: false,
     correct_answers: [],
     options: [],
     questions: [],
@@ -39,10 +39,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 question_index: action.payload
             }
-        case CHANGE_SCORE:
+        case CHANGE_FINAL:
             return {
                 ...state,
-                score: action.payload
+                final: action.payload
             }
         case CHANGE_OPTIONS:
             return {

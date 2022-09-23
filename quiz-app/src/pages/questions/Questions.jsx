@@ -7,7 +7,8 @@ import './Question.css'
 import { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import store from '../../redux/store'
-import { handleCorrectAnswersChange, handleIndexQuestionChange, handleOptionsChange, handleQuestionsChange } from '../../redux/actions'
+import { handleCorrectAnswersChange, handleIndexQuestionChange, handleOptionsChange, 
+  handleQuestionsChange, handleChoiceChange} from '../../redux/actions'
 
 export const Questions = () => {
   const {
@@ -24,26 +25,29 @@ export const Questions = () => {
   let apiUrl = `/api.php?amount=10&category=${question_category}&difficulty=${question_difficulty}&type=${question_type}`
 
   const { response, loading } = useAxios({ url: apiUrl})
-  const [finished, setFinished] = useState()
-  const [alternatives, setAlternatives] = useState([])
-  const [indexQuestion, setIndexQuestion] = useState([])
+  const [submited, setSubmited] = useState(null)
+  const [alternatives, setAlternatives] = useState(0)
+  const [next, setNext] = useState(false)
+  const [mensage, setMensage] = useState("")
   const navigate = useNavigate()
 
 
   useEffect(() => {
     if(response?.results.length) {
-      const question = response.results[question_index];
-      let answers = [...question.incorrect_answers]
-      answers.splice(
-        getRandomInt(question.incorrect_answers.length + 1),
-        0,
-        question.correct_answer
-      );
-      setAlternatives(answers)
-      store.dispatch(handleOptionsChange([...options, [answers]]))
-      store.dispatch(handleQuestionsChange(response.results))
+      if(alternatives < 10) {
+        let question = response.results[alternatives];
+        let answers = [...question.incorrect_answers]
+        answers.splice(
+          getRandomInt(question.incorrect_answers.length + 1),
+          0,
+          question.correct_answer
+        );
+        store.dispatch(handleOptionsChange([...options, [answers]]))
+        store.dispatch(handleQuestionsChange(response.results))
+        setAlternatives(alternatives + 1)
+      }
     }
-  }, [question_index, response])
+  }, [alternatives, response])
 
   if(loading) 
       return (
@@ -51,30 +55,40 @@ export const Questions = () => {
       )
 
   const handleNextClick = () => {
-    if(question_index < 9)
+    if(question_index < 9){
       store.dispatch(handleIndexQuestionChange(question_index + 1))
+      setNext(true)
+    }
   }
 
   const handleBackClick = () => {
-    if(question_index > 0)
+    if(question_index > 0){
       store.dispatch(handleIndexQuestionChange(question_index - 1))
+      setNext(false)
+    }
   }
 
-  const handleFinishClick = () => {
-      setFinished(true)
+  const handleSubmitClick = () => {
+      setSubmited(true)
       for(let i = 0; i < 10; i++) {
-        console.log(choice[i])
         if(!choice[i]) {
-          setFinished(false)
+          setSubmited(false)
         }
       }
 
-      if(finished) {
+      if(submited) {
         navigate('/score')
-      } 
+      } else {
+        setMensage("Answer all questions before submit")
+      }
   }
 
   const handleCancelClick = () => {
+      store.dispatch(handleIndexQuestionChange(0))
+      store.dispatch(handleQuestionsChange([]))
+      store.dispatch(handleChoiceChange([]))
+      store.dispatch(handleOptionsChange([]))
+      store.dispatch(handleCorrectAnswersChange([]))
       navigate('/')
   }
 
@@ -85,23 +99,22 @@ export const Questions = () => {
     return correctIndex
   }
 
-
-  if(response && options)
+  if(questions.length)
     return (
       <div className='d-flex flex-column'>
         <div className='d-flex l-gap'>
-            <QuestionCard statement={`${question_index + 1}. ${response.results[question_index].question}`}
-            answers={alternatives} indexQuestion={indexQuestion}/>
+            <QuestionCard statement={`${question_index + 1}. ${questions[question_index].question}`}
+            answers={options[question_index][0]} indexQuestion={question_index} next={next}/>
           <QuestionNavigation />
         </div>
-        <div className='d-flex justify-content-between btn-size mt-2'>
+        <div className='d-flex justify-content-between default-size mt-2'>
               <button  className='btn btn-warning' onClick={handleBackClick}> Back</button>
               <button  className='btn btn-success' onClick={handleNextClick}> Next</button>
         </div>
 
-        <button className='btn btn-primary btn-size mt-3' onClick={handleFinishClick}>Finish</button>
-        <button className='btn btn-danger btn-size mt-1'  onClick={handleCancelClick}>Cancel</button>
-
+        <button className='btn btn-primary default-size mt-3' onClick={handleSubmitClick}>Submit</button>
+        <button className='btn btn-danger default-size mt-1'  onClick={handleCancelClick}>Cancel</button>
+        <p className='text-danger msg default-size text-center'>{mensage}</p>
       </div>
     )
 }

@@ -30,3 +30,8 @@ select {
     font-weight: 500;
     font-size: 0.9rem;
 }
+
+.msg {
+    font-size: .85rem;
+    font-style: italic
+}

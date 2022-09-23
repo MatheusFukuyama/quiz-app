@@ -7,7 +7,8 @@ import {
     CHANGE_CORRECT_ANSWERS,
     CHANGE_SCORE,
     CHANGE_OPTIONS,
-    CHANGE_QUESTIONS
+    CHANGE_QUESTIONS,
+    CHANGE_FINAL
 } from './actionsType'
 
 export const handleCategoryChange = (payload) => ({
@@ -35,8 +36,8 @@ export const handleIndexQuestionChange = (payload) => ({
     payload
 })
 
-export const handleScoreChange = (payload) => ({
-    type: CHANGE_SCORE,
+export const handleFinalChange = (payload) => ({
+    type: CHANGE_FINAL,
     payload
 })
 

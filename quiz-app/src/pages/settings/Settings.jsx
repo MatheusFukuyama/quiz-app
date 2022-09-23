@@ -5,12 +5,22 @@ import SelectField from '../../components/selectField/SelectField'
 import useAxios from '../../hooks/useAxios'
 import { useNavigate } from "react-router-dom";
 import store from '../../redux/store'
-import { handleChoiceChange, handleCorrectAnswersChange, handleIndexQuestionChange, handleOptionsChange, handleQuestionsChange } from '../../redux/actions'
+import { handleChoiceChange, handleCorrectAnswersChange, handleOptionsChange,
+  handleQuestionsChange } from '../../redux/actions'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 export const Settings = () => {
 
   const {response, error, loading} = useAxios({ url: "/api_category.php"})
   const navigate = useNavigate()
+  const[item, setItem] = useState([])
+  const[mensage, setMensage] = useState("")
+
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem('items'));
+    setItem(items)
+  }, [])
 
   
   if(loading) {
@@ -46,33 +56,36 @@ export const Settings = () => {
     navigate('/questions')
   }
 
-  const handleReportClick = (e) => {
-    const item = JSON.parse(localStorage.getItem('items'));
-    if(item[0].length != 0) {
+  const handleReportClick = (e) => {;
+    if(item) {
       store.dispatch(handleOptionsChange(item[0]))
       store.dispatch(handleQuestionsChange(item[1]))
       store.dispatch(handleCorrectAnswersChange(item[2]))
       store.dispatch(handleChoiceChange(item[3]))
       
       navigate('/score')
+    } else {
+      setMensage("You should have played the game at least once to see your record")
     }
   }
 
-  if(response)
-    return (
-      <div className=' w-400 d-flex flex-column align-items-center position-relative'>
-          <Title />
-          <form className='w-100' onSubmit={handleSubmit}>
-            <div className=' border rounded-3 border-dark w-100 p-4'>
-              <SelectField options={response.trivia_categories} label='Category'/>
-              <SelectField options={difficultyOptions} label='Difficulty' />
-              <SelectField options={typeOptions} label='Type' />
-            </div>
-            <button type="submit" className='button btn-start p-2 w-100  mt-4'>GET STARTED</button>
-          </form>
+  if(response){
+      return (
+        <div className=' w-400 d-flex flex-column align-items-center position-relative'>
+            <Title />
+            <form className='w-100' onSubmit={handleSubmit}>
+              <div className=' border rounded-3 border-dark w-100 p-4'>
+                <SelectField options={response.trivia_categories} label='Category'/>
+                <SelectField options={difficultyOptions} label='Difficulty' />
+                <SelectField options={typeOptions} label='Type' />
+              </div>
+              <button type="submit" className='button btn-start p-2 w-100  mt-4'>GET STARTED</button>
+            </form>
+  
+            <button type="button" className='button btn-report p-2 w-100  mt-1 disable' onClick={handleReportClick}>RECORD</button>
 
-          <button type="button" className='button btn-report p-2 w-100  mt-1' onClick={handleReportClick}>REPORT</button>
-
-      </div>
-    )
+            <p className='text-danger msg'>{mensage}</p>
+        </div>
+      )
+  }
 }

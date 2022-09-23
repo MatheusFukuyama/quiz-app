@@ -1,3 +1,7 @@
-.h100 {
+.heightVh100 {
+    height: 100vh;
+}
+
+.heightPercent100 {
     height: 100%;
 }
