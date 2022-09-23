@@ -25,7 +25,7 @@ export const Questions = () => {
   let apiUrl = `/api.php?amount=10&category=${question_category}&difficulty=${question_difficulty}&type=${question_type}`
 
   const { response, loading } = useAxios({ url: apiUrl})
-  const [submited, setSubmited] = useState(null)
+  const [submited, setSubmited] = useState(true)
   const [alternatives, setAlternatives] = useState(0)
   const [next, setNext] = useState(false)
   const [mensage, setMensage] = useState("")
