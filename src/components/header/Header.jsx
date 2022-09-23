@@ -12,7 +12,6 @@ export default function Header() {
     const [score, setScore] = useState(0)
     const navigate = useNavigate()
 
-
     useEffect(() => {
         let counter = 0
         for(let i = 0; i < 10; i++) {
@@ -22,6 +21,7 @@ export default function Header() {
         }
 
         setScore(counter)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleClick = (e) => {

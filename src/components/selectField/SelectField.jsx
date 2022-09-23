@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { handleCategoryChange, handleDifficultyChange, handleTypeChange } from '../../redux/actions'
 import store from "../../redux/store"
 

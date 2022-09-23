@@ -25,7 +25,6 @@ export const Questions = () => {
   let apiUrl = `/api.php?amount=10&category=${question_category}&difficulty=${question_difficulty}&type=${question_type}`
 
   const { response, loading } = useAxios({ url: apiUrl})
-  const [submited, setSubmited] = useState(null)
   const [alternatives, setAlternatives] = useState(0)
   const [next, setNext] = useState(false)
   const [mensage, setMensage] = useState("")
@@ -35,7 +34,7 @@ export const Questions = () => {
   useEffect(() => {
     if(response?.results.length) {
       if(alternatives < 10) {
-        let question = response.results[alternatives];
+        let question = response.results[alternatives]
         let answers = [...question.incorrect_answers]
         answers.splice(
           getRandomInt(question.incorrect_answers.length + 1),
@@ -47,6 +46,8 @@ export const Questions = () => {
         setAlternatives(alternatives + 1)
       }
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alternatives, response])
 
   if(loading) 
@@ -69,16 +70,16 @@ export const Questions = () => {
   }
 
   const handleSubmitClick = () => {
-      setSubmited(true)
+      let submit = true
       for(let i = 0; i < 10; i++) {
         if(!choice[i]) {
-          setSubmited(false)
+          submit = false
         }
       }
 
-      if(submited) {
+      if(submit) {
         navigate('/score')
-      } else {
+      } else {   
         setMensage("Answer all questions before submit")
       }
   }
@@ -98,6 +99,7 @@ export const Questions = () => {
     store.dispatch(handleCorrectAnswersChange([...correct_answers, correctIndex]))
     return correctIndex
   }
+
 
   if(questions.length)
     return (
