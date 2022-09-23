@@ -1,4 +1,4 @@
-# electron-react-typescript
+# Quizz-App
 
  Solução do desafio proposto utilizando react.
 
