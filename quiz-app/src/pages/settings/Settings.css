@@ -1,0 +1,32 @@
+.w-400 {
+    max-width: 30rem;
+    width: 100%;
+}
+
+label {
+    color: #1E1E1E;
+    font-weight: 600;
+}
+
+select {
+    background-color: #D9D9D9;
+}
+
+.button{
+    border: none;
+    border-radius: 3px;   
+}
+
+.btn-start {
+    background-color: #ED654C;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.btn-report {
+    background-color: #6C63FF;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.9rem;
+}

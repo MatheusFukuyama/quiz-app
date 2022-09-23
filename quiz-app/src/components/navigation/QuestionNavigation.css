@@ -1,0 +1,23 @@
+.navigation {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 21.5rem;
+    overflow: hidden;
+}
+
+.page {
+    padding: 0;
+    height: 100%;
+    background-color: #E6E6E6;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid #fff;
+    transition: background-color 0.5s ease;
+    text-align: center;
+}
+
+.page:hover {
+    background-color: #D9D9D9;
+}
