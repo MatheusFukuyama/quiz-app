@@ -10,8 +10,21 @@
 }
 
 .header {
-    width: 30rem;
+    max-width: 30rem;
+    width: 100%;
     border-bottom: 1px solid #D9D9D9;
     background-color: #fff;
     padding-bottom: 2rem;
+}
+
+@media screen and (max-width: 630px ) {
+    .score-value {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .score-label {
+        font-size: .5rem;
+        font-weight: 600;
+    }
 }

@@ -1,5 +1,6 @@
 .question-card {
-    width: 30rem;
+    max-width: 30rem;
+    width: 100%;
 }
 
 .statement{
@@ -29,4 +30,21 @@
 
 .selected {
     background-color: #bbbb;
+}
+
+@media screen and (max-width: 630px ) {
+    .statement{
+        padding: 1rem 1.5rem;
+        font-size: .75rem;
+        text-align: center;
+        max-width: 60ch;
+        width: 100%;
+    }
+
+    .answer {
+        padding: 1rem 1.5rem;
+        background-color: #E6E6E6;
+        transition: background-color .5s ease;
+        font-size: .75rem;
+    }
 }
